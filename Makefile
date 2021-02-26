@@ -1,6 +1,8 @@
 
 install:
 	go install \
+		github.com/nats-io/stan.go \
+		github.com/golang/protobuf/proto \
 		github.com/joho/godotenv \
 		github.com/dgrijalva/jwt-go \
 		github.com/google/uuid \

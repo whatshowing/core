@@ -1,16 +1,17 @@
 package event
 
-
 var Subjects = newSubjectRegistry()
 
-type subjectRegistry struct {
-	AuthChange string
+type Subject struct {
+	name string
 }
 
+type subjectRegistry struct {
+	AuthChange *Subject
+}
 
 func newSubjectRegistry() *subjectRegistry {
 	return &subjectRegistry{
-		AuthChange: "auth:change",
+		AuthChange: &Subject{name: "auth:change"},
 	}
 }
-
