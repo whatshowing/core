@@ -17,13 +17,14 @@ type listener struct {
 	OnMessage      func()
 	Client         stan.Conn
 	ProtoMsg       proto.Message
+	ParseMsg       func(msg *stan.Msg, message proto.Message) error
 	//AckWait int64
 	//subOption stan.ListenerOption
 }
 
 func (s *listener) Listen(onMsg func(pb proto.Message)) (stan.Subscription, error) {
 	return s.Client.QueueSubscribe(s.Subject.Name, s.QueueGroupName.Name, func(msg *stan.Msg) {
-		if er := s.parseMsg(msg, s.ProtoMsg); er != nil {
+		if er := s.ParseMsg(msg, s.ProtoMsg); er != nil {
 			log.Printf("Error listening to subject %v. \n Error: %v \n", s.Subject.Name, er)
 		}
 		log.Printf("Listening event on subject %v\n", s.Subject.Name)
