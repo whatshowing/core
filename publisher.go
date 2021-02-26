@@ -12,7 +12,7 @@ type Publisher interface {
 }
 
 type publisher struct {
-	Subject  Subject
+	Subject  *Subject
 	Client   stan.Conn
 	ProtoMsg *proto.Message
 	//AckWait int64
@@ -31,9 +31,9 @@ func (p publisher) Publish() error {
 		return er
 	}
 
-	return p.Client.Publish(p.Subject.name, d)
+	return p.Client.Publish(p.Subject.Name, d)
 }
 
-func NewPublisher(subject Subject, client stan.Conn, msg *proto.Message) Publisher {
+func NewPublisher(subject *Subject, client stan.Conn, msg *proto.Message) Publisher {
 	return &publisher{Subject: subject, Client: client, ProtoMsg: msg}
 }
