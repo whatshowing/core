@@ -3,15 +3,17 @@ package core
 var Subjects = newSubjectRegistry()
 
 type Subject struct {
-	name string
+	Name string
 }
 
 type subjectRegistry struct {
-	AuthChange *Subject
+	AuthChange  *Subject
+	UserCreated *Subject
 }
 
 func newSubjectRegistry() *subjectRegistry {
 	return &subjectRegistry{
-		AuthChange: &Subject{name: "auth:change"},
+		AuthChange:  &Subject{Name: "auth:change"},
+		UserCreated: &Subject{Name: "user:created"},
 	}
 }

@@ -3,15 +3,17 @@ package core
 var QueueGroups = newQueueGroupRegistry()
 
 type QueueGroup struct {
-	name string
+	Name string
 }
 
 type queueGroupRegistry struct {
 	AuthGroup *QueueGroup
+	UserGroup *QueueGroup
 }
 
 func newQueueGroupRegistry() *queueGroupRegistry {
 	return &queueGroupRegistry{
-		AuthGroup: &QueueGroup{name: "auth"},
+		AuthGroup: &QueueGroup{Name: "auth"},
+		UserGroup: &QueueGroup{Name: "user"},
 	}
 }
