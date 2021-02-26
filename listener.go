@@ -1,4 +1,4 @@
-package event
+package common
 
 import (
 	"github.com/gogo/protobuf/proto"
