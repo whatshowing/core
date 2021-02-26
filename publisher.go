@@ -2,12 +2,12 @@ package core
 
 import (
 	"github.com/gogo/protobuf/proto"
+	"github.com/nats-io/nats.go/encoders/protobuf"
 	"github.com/nats-io/stan.go"
 	"log"
 )
 
 type Publisher interface {
-	parseMsg(msg proto.Message) ([]byte, error)
 	Publish() error
 }
 
@@ -18,13 +18,10 @@ type publisher struct {
 	//AckWait int64
 }
 
-func (p publisher) parseMsg(msg proto.Message) ([]byte, error) {
-
-	return proto.Marshal(msg)
-}
-
 func (p publisher) Publish() error {
-	d, er := p.parseMsg(p.ProtoMsg)
+	e := protobuf.ProtobufEncoder{}
+	d, er := e.Encode(p.Subject.Name, p.ProtoMsg)
+
 	if er != nil {
 		log.Printf("Could not Parse protobuf message: %v", er)
 		return er

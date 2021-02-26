@@ -2,6 +2,7 @@ package core
 
 import (
 	"github.com/gogo/protobuf/proto"
+	"github.com/nats-io/nats.go/encoders/protobuf"
 	"github.com/nats-io/stan.go"
 	"log"
 )
@@ -17,14 +18,15 @@ type listener struct {
 	OnMessage      func()
 	Client         stan.Conn
 	ProtoMsg       proto.Message
-	ParseMsg       func(msg *stan.Msg, message proto.Message) error
 	//AckWait int64
 	//subOption stan.ListenerOption
 }
 
 func (s *listener) Listen(onMsg func(pb proto.Message)) (stan.Subscription, error) {
 	return s.Client.QueueSubscribe(s.Subject.Name, s.QueueGroupName.Name, func(msg *stan.Msg) {
-		if er := s.ParseMsg(msg, s.ProtoMsg); er != nil {
+		en := protobuf.ProtobufEncoder{}
+
+		if er := en.Decode(s.Subject.Name, msg.Data, s.ProtoMsg); er != nil {
 			log.Printf("Error listening to subject %v. \n Error: %v \n", s.Subject.Name, er)
 		}
 		log.Printf("Listening event on subject %v\n", s.Subject.Name)
@@ -42,13 +44,11 @@ func NewListener(
 	group *QueueGroup,
 	client stan.Conn,
 	msg proto.Message,
-	parseMsg func(msg *stan.Msg, message proto.Message) error,
 ) Listener {
 	return &listener{
 		Subject:        subject,
 		QueueGroupName: group,
 		Client:         client,
 		ProtoMsg:       msg,
-		ParseMsg:       parseMsg,
 	}
 }
