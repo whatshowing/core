@@ -37,6 +37,18 @@ func (s *listener) parseMsg(msg *stan.Msg, pb proto.Message) error {
 	return proto.Unmarshal(msg.Data, pb)
 }
 
-func NewListener(subject *Subject, group *QueueGroup, client stan.Conn, msg proto.Message) Listener {
-	return &listener{Subject: subject, QueueGroupName: group, Client: client, ProtoMsg: msg}
+func NewListener(
+	subject *Subject,
+	group *QueueGroup,
+	client stan.Conn,
+	msg proto.Message,
+	parseMsg func(msg *stan.Msg, message proto.Message) error,
+) Listener {
+	return &listener{
+		Subject:        subject,
+		QueueGroupName: group,
+		Client:         client,
+		ProtoMsg:       msg,
+		ParseMsg:       parseMsg,
+	}
 }
