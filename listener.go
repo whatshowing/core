@@ -3,6 +3,7 @@ package core
 import (
 	"github.com/gogo/protobuf/proto"
 	"github.com/nats-io/stan.go"
+	"log"
 )
 
 type Subscription interface {
@@ -23,8 +24,10 @@ type subscription struct {
 func (s *subscription) Listen() (stan.Subscription, error) {
 	return s.Client.QueueSubscribe(s.Subject.Name, s.QueueGroupName.Name, func(msg *stan.Msg) {
 		if er := s.parseMsg(msg, s.ProtoMsg); er != nil {
-
+			log.Printf("Error listening to subject %v. \n Error: %v \n", s.Subject.Name, er)
 		}
+		log.Printf("Listening event on subject %v\n", s.Subject.Name)
+
 	}, stan.DurableName(s.QueueGroupName.Name), stan.DeliverAllAvailable())
 }
 

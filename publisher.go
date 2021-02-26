@@ -31,6 +31,8 @@ func (p publisher) Publish() error {
 		return er
 	}
 
+	log.Printf("publishing to subject %v", p.Subject.Name)
+
 	return p.Client.Publish(p.Subject.Name, d)
 }
 
