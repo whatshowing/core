@@ -4,5 +4,4 @@ func ValidateJWT() {
 }
 
 func RefreshToken() {
-
 }

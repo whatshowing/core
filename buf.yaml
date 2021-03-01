@@ -1,0 +1,9 @@
+version: v1beta1
+name: buf.build/whatshowing/core
+build:
+  roots:
+    - proto/messages
+    - apis
+
+deps:
+  - buf.build/beta/googleapis

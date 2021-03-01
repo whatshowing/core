@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package messages;
+
+option go_package = "proto/messages";
+
+message EmailSendMessage {
+  string email = 1;
+  string textBody = 2;
+  string htmlBody = 3;
+  string html = 4;
+}
+
+message PhoneSendMessage {}
+
+message PhoneVerificationMessage {}
+
+message EmailSendEvent {
+  uint64 version = 1;
+  EmailSendMessage message = 2;
+}
+
+message PhoneSendEvent {
+  uint64 version = 1;
+  PhoneSendMessage message = 2;
+}
+
+message PhoneVerificationEvent {
+  uint64 version = 1;
+  PhoneVerificationMessage message = 2;
+}
