@@ -4,5 +4,5 @@ plugins:
     out: messages
     opt: paths=source_relative
   - name: go-grpc
-    out: apis
+    out: messages
     opt: paths=source_relative,require_unimplemented_servers=false
