@@ -1,13 +1,17 @@
 syntax = "proto3";
 
-package messages;
+package v1;
 
 option go_package = "apis/auth/v1";
 
-import "auth.proto";
+message RegisterRequest {
+  uint64  userId = 1;
+  string email = 2;
+  string password = 3;
+}
 
 message RegisterResponse {}
 
 service RegisterServiceRpc {
-  rpc Register(RegisterMessage) returns (RegisterResponse);
+  rpc Register(RegisterRequest) returns (RegisterResponse);
 }
