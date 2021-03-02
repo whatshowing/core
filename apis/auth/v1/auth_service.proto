@@ -10,7 +10,9 @@ message RegisterRequest {
   string password = 3;
 }
 
-message RegisterResponse {}
+message RegisterResponse {
+  string token = 1;
+}
 
 service RegisterServiceRpc {
   rpc Register(RegisterRequest) returns (RegisterResponse);

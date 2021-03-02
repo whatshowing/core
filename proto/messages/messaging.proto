@@ -18,14 +18,17 @@ message PhoneVerificationMessage {}
 message EmailSendEvent {
   uint64 version = 1;
   EmailSendMessage message = 2;
+  string source = 3;
 }
 
 message PhoneSendEvent {
   uint64 version = 1;
   PhoneSendMessage message = 2;
+  string source = 3;
 }
 
 message PhoneVerificationEvent {
   uint64 version = 1;
   PhoneVerificationMessage message = 2;
+  string source = 3;
 }
