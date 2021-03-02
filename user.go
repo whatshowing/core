@@ -1,5 +1,7 @@
 package core
 
+import "errors"
+
 var RegistrationSteps = newRegistrationStepRegistry()
 
 type RegistrationStep struct {
@@ -18,20 +20,65 @@ type registrationStepRegistry struct {
 	CharacterSelection  *RegistrationStep
 	TalentSelection     *RegistrationStep
 	Completed           *RegistrationStep
+
+	steps []*RegistrationStep
 }
 
 func newRegistrationStepRegistry() *registrationStepRegistry {
+
+	initial := &RegistrationStep{Name: "initial"}
+	phoneInput := &RegistrationStep{Name: "phone-input"}
+	phoneVerification := &RegistrationStep{Name: "phone-verification"}
+	personalNamesInput := &RegistrationStep{Name: "personal-names-input"}
+	addressInput := &RegistrationStep{Name: "address-input"}
+	socialLinksInput := &RegistrationStep{Name: "social-links-input"}
+	usernameAvatarInput := &RegistrationStep{Name: "username-avatar-input"}
+	physicalDescription := &RegistrationStep{Name: "physical-description"}
+	characterSelection := &RegistrationStep{Name: "character-selection"}
+	talentSelection := &RegistrationStep{Name: "talent-selection"}
+	completed := &RegistrationStep{Name: "completed"}
+
 	return &registrationStepRegistry{
-		Initial:             &RegistrationStep{Name: "initial"},
-		PhoneInput:          &RegistrationStep{Name: "phone-input"},
-		PhoneVerification:   &RegistrationStep{Name: "phone-verification"},
-		PersonalNamesInput:  &RegistrationStep{Name: "personal-names-input"},
-		AddressInput:        &RegistrationStep{Name: "address-input"},
-		SocialLinksInput:    &RegistrationStep{Name: "social-links-input"},
-		UsernameAvatarInput: &RegistrationStep{Name: "username-avatar-input"},
-		PhysicalDescription: &RegistrationStep{Name: "physical-description"},
-		CharacterSelection:  &RegistrationStep{Name: "character-selection"},
-		TalentSelection:     &RegistrationStep{Name: "talent-selection"},
-		Completed:           &RegistrationStep{Name: "completed"},
+		Initial:             initial,
+		PhoneInput:          phoneInput,
+		PhoneVerification:   phoneVerification,
+		PersonalNamesInput:  personalNamesInput,
+		AddressInput:        addressInput,
+		SocialLinksInput:    socialLinksInput,
+		UsernameAvatarInput: usernameAvatarInput,
+		PhysicalDescription: physicalDescription,
+		CharacterSelection:  characterSelection,
+		TalentSelection:     talentSelection,
+		Completed:           completed,
+
+		steps: []*RegistrationStep{
+			initial,
+			phoneInput,
+			phoneVerification,
+			personalNamesInput,
+			addressInput,
+			socialLinksInput,
+			usernameAvatarInput,
+			physicalDescription,
+			characterSelection,
+			talentSelection,
+			completed,
+		},
 	}
+
+}
+
+func (s *registrationStepRegistry) List() []*RegistrationStep {
+	return s.steps
+}
+
+func (s *registrationStepRegistry) Parse(step string) (*RegistrationStep, error) {
+
+	for _, sp := range s.List() {
+		if sp.Name == step {
+			return sp, nil
+		}
+	}
+
+	return nil, errors.New("cloud not parse step")
 }
