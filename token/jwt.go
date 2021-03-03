@@ -8,6 +8,8 @@ import (
 
 type Claims jwt.Claims
 
+type MapClaims jwt.MapClaims
+
 type JwtService interface {
 	ExtractClaims(t string, secret string) (jwt.Claims, error)
 	SignToken(mapClaims Claims, secret string, expSec uint) (string, error)
