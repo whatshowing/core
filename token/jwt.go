@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"time"
 )
 
 type Claims jwt.Claims
@@ -12,14 +13,14 @@ type MapClaims jwt.MapClaims
 
 type JwtService interface {
 	ExtractClaims(t string, secret string) (jwt.Claims, error)
-	SignToken(mapClaims Claims, secret string, expSec uint) (string, error)
+	SignToken(mapClaims Claims, secret string, expSec time.Duration) (string, error)
 	IsValid(t string, secret string) bool
 	RefreshToken(
 		refreshToken string,
 		refreshSecret string,
 		token string,
 		tokenSecret string,
-		expSec uint,
+		expSec time.Duration,
 
 	) (string, error)
 }
@@ -31,7 +32,7 @@ func (j *jwtService) RefreshToken(
 	refreshSecret string,
 	token string,
 	tokenSecret string,
-	expSec uint,
+	expSec time.Duration,
 ) (string, error) {
 
 	if ok := j.IsValid(refreshToken, refreshSecret); !ok {
@@ -50,9 +51,9 @@ func NewJwtService() JwtService {
 	return &jwtService{}
 }
 
-func (*jwtService) SignToken(mapClaims Claims, secret string, expSec uint) (string, error) {
+func (*jwtService) SignToken(mapClaims Claims, secret string, expSec time.Duration) (string, error) {
 	c := mapClaims.(jwt.MapClaims)
-	c["exp"] = expSec
+	c["exp"] = expSec.Seconds()
 	tk := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
 	return tk.SignedString([]byte(secret))
 }
