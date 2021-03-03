@@ -7,13 +7,11 @@ import (
 	"time"
 )
 
-type Claims jwt.Claims
-
 type MapClaims jwt.MapClaims
 
 type JwtService interface {
-	ExtractClaims(t string, secret string) (jwt.Claims, error)
-	SignToken(mapClaims Claims, secret string, expSec time.Duration) (string, error)
+	ExtractClaims(t string, secret string) (MapClaims, error)
+	SignToken(mapClaims MapClaims, secret string, expSec time.Duration) (string, error)
 	IsValid(t string, secret string) bool
 	RefreshToken(
 		refreshToken string,
@@ -44,15 +42,15 @@ func (j *jwtService) RefreshToken(
 		return "", err
 	}
 
-	return j.SignToken(claims.(Claims), tokenSecret, expSec)
+	return j.SignToken(claims, tokenSecret, expSec)
 }
 
 func NewJwtService() JwtService {
 	return &jwtService{}
 }
 
-func (*jwtService) SignToken(mapClaims Claims, secret string, expSec time.Duration) (string, error) {
-	c := mapClaims.(jwt.MapClaims)
+func (*jwtService) SignToken(mapClaims MapClaims, secret string, expSec time.Duration) (string, error) {
+	c := jwt.MapClaims(mapClaims)
 	c["exp"] = expSec.Seconds()
 	tk := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
 	return tk.SignedString([]byte(secret))
@@ -71,13 +69,14 @@ func (j *jwtService) IsValid(t string, secret string) bool {
 	return true
 }
 
-func (j *jwtService) ExtractClaims(t string, secret string) (jwt.Claims, error) {
+func (j *jwtService) ExtractClaims(t string, secret string) (MapClaims, error) {
 	claims, err := j.extractToken(t, secret)
 	if err != nil {
 		return nil, err
 	}
 
-	return claims.Claims.(jwt.MapClaims), nil
+	c := claims.Claims.(jwt.MapClaims)
+	return MapClaims(c), nil
 }
 
 func (*jwtService) extractToken(t string, secret string) (*jwt.Token, error) {
