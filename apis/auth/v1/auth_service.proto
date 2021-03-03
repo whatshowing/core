@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package v1;
+package authV1;
 
 option go_package = "apis/auth/v1";
 
