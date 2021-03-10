@@ -12,4 +12,5 @@ require (
 	github.com/nats-io/nats.go v1.10.0
 	github.com/nats-io/stan.go v0.8.2
 	github.com/stretchr/testify v1.7.0 // indirect
+	google.golang.org/grpc v1.35.0-dev.0.20201218190559-666aea1fb34c
 )
