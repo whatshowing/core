@@ -8,6 +8,7 @@ message RegisterRequest {
   uint64  userId = 1;
   string email = 2;
   string password = 3;
+  string accountType = 4;
 }
 
 message RegisterResponse {
