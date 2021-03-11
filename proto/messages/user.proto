@@ -27,58 +27,58 @@ message UserRegisterMessage {
   string phoneCode = 5;
   string phone = 6;
   string status = 7;
-  google.type.Date deletedAt = 8;
+  string deletedAt = 8;
 }
 
 
 message UserArtistMessage {
   uint64 version = 1;
   uint64 id = 2;
-  string userId = 3;
+  uint64 userId = 3;
   string name = 4;
   string status = 5;
-  google.type.Date deletedAt = 6;
+  string deletedAt = 6;
 }
 
 
 message UserLabelMessage {
   uint64 version = 1;
   uint64 id = 2;
-  string userId = 3;
+  uint64 userId = 3;
   string name = 4;
   string status = 5;
-  google.type.Date deletedAt = 6;
+  string deletedAt = 6;
 }
 
 
 message UserPortfolioMessage {
   uint64 version = 1;
   uint64 id = 2;
-  string userId = 3;
+  uint64 userId = 3;
   string firstName = 4;
   string lastName = 5;
   string status = 6;
-  google.type.Date deletedAt = 7;
+  string deletedAt = 7;
 }
 
 
 message UserProductionMessage {
   uint64 version = 1;
   uint64 id = 2;
-  string userId = 3;
+  uint64 userId = 3;
   string name = 4;
   string status = 5;
-  google.type.Date deletedAt = 6;
+  string deletedAt = 6;
 }
 
 
 message UserCinemaMessage {
   uint64 version = 1;
   uint64 id = 2;
-  string userId = 3;
+  uint64 userId = 3;
   string name = 4;
   string status = 5;
-  google.type.Date deletedAt = 6;
+  string deletedAt = 6;
 }
 
 
@@ -87,6 +87,6 @@ message UserCategoryMessage {
   uint64 id = 2;
   string name = 3;
   string description = 4;
-  google.type.Date deletedAt = 6;
+  string deletedAt = 6;
 }
 
