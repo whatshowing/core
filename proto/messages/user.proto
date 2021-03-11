@@ -18,6 +18,31 @@ message UserArtistEvent {
   UserArtistMessage message = 2;
 }
 
+message UserLabelEvent {
+  uint64 version = 1;
+  UserLabelMessage message = 2;
+}
+
+message UserPortfolioEvent {
+  uint64 version = 1;
+  UserPortfolioMessage message = 2;
+}
+
+message UserCinemaEvent {
+  uint64 version = 1;
+  UserCinemaMessage message = 2;
+}
+
+message UserProductionEvent {
+  uint64 version = 1;
+  UserProductionMessage message = 2;
+}
+
+message UserCategoryEvent {
+  uint64 version = 1;
+  UserCategoryMessage message = 2;
+}
+
 
 message UserRegisterMessage {
   uint64 version = 1;
