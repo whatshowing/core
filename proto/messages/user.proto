@@ -2,9 +2,91 @@ syntax = "proto3";
 
 package messages;
 
+import "google/type/date.proto";
+
 option go_package = "proto/messages";
 
-message UserRegisterMessage {
 
+message UserRegisterEvent {
+  uint32 version = 1;
+  UserRegisterMessage message = 2;
+}
+
+
+message UserArtistEvent {
+  uint64 version = 1;
+  UserArtistMessage message = 2;
+}
+
+
+message UserRegisterMessage {
+  uint64 version = 1;
+  uint64 id = 2;
+  string email = 3;
+  string username = 4;
+  string phoneCode = 5;
+  string phone = 6;
+  string status = 7;
+  google.type.Date deletedAt = 8;
+}
+
+
+message UserArtistMessage {
+  uint64 version = 1;
+  uint64 id = 2;
+  string userId = 3;
+  string name = 4;
+  string status = 5;
+  google.type.Date deletedAt = 6;
+}
+
+
+message UserLabelMessage {
+  uint64 version = 1;
+  uint64 id = 2;
+  string userId = 3;
+  string name = 4;
+  string status = 5;
+  google.type.Date deletedAt = 6;
+}
+
+
+message UserPortfolioMessage {
+  uint64 version = 1;
+  uint64 id = 2;
+  string userId = 3;
+  string firstName = 4;
+  string lastName = 5;
+  string status = 6;
+  google.type.Date deletedAt = 7;
+}
+
+
+message UserProductionMessage {
+  uint64 version = 1;
+  uint64 id = 2;
+  string userId = 3;
+  string name = 4;
+  string status = 5;
+  google.type.Date deletedAt = 6;
+}
+
+
+message UserCinemaMessage {
+  uint64 version = 1;
+  uint64 id = 2;
+  string userId = 3;
+  string name = 4;
+  string status = 5;
+  google.type.Date deletedAt = 6;
+}
+
+
+message UserCategoryMessage {
+  uint64 version = 1;
+  uint64 id = 2;
+  string name = 3;
+  string description = 4;
+  google.type.Date deletedAt = 6;
 }
 
