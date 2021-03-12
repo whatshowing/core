@@ -56,12 +56,14 @@ type RpcHeader struct {
 }
 
 type rpcHeaderRegistry struct {
-	Auth        *RpcHeader
-	SetAuth     *RpcHeader
-	RegAuth     *RpcHeader
-	SetRegAuth  *RpcHeader
-	DeviceTk    *RpcHeader
-	SetDeviceTk *RpcHeader
+	Auth             *RpcHeader
+	SetAuth          *RpcHeader
+	AuthRefreshTk    *RpcHeader
+	SetAuthRefreshTk *RpcHeader
+	RegAuth          *RpcHeader
+	SetRegAuth       *RpcHeader
+	DeviceTk         *RpcHeader
+	SetDeviceTk      *RpcHeader
 
 	statuses []*RpcHeader
 }
@@ -70,19 +72,23 @@ func newRpcHeadersRegistry() *rpcHeaderRegistry {
 
 	auth := &RpcHeader{Name: "_a"}
 	setAuth := &RpcHeader{Name: "set-_a"}
+	authRefreshTk := &RpcHeader{Name: "_rf_tk"}
+	setAuthRefreshTk := &RpcHeader{Name: "set-_rf_tk"}
 	regAuth := &RpcHeader{Name: "r_a"}
 	setRegAuth := &RpcHeader{Name: "set-r_a"}
 	deviceTk := &RpcHeader{Name: "d_tk"}
 	setDeviceTk := &RpcHeader{Name: "set-d_tk"}
 
 	return &rpcHeaderRegistry{
-		Auth:        auth,
-		SetAuth:     setAuth,
-		RegAuth:     regAuth,
-		SetRegAuth:  setRegAuth,
-		DeviceTk:    deviceTk,
-		SetDeviceTk: setDeviceTk,
-		statuses:    []*RpcHeader{auth, setRegAuth, regAuth, setRegAuth, deviceTk, setDeviceTk},
+		Auth:             auth,
+		SetAuth:          setAuth,
+		AuthRefreshTk:    authRefreshTk,
+		SetAuthRefreshTk: setAuthRefreshTk,
+		RegAuth:          regAuth,
+		SetRegAuth:       setRegAuth,
+		DeviceTk:         deviceTk,
+		SetDeviceTk:      setDeviceTk,
+		statuses:         []*RpcHeader{auth, setRegAuth, regAuth, setRegAuth, deviceTk, setDeviceTk},
 	}
 }
 
