@@ -20,8 +20,10 @@ type publisher struct {
 
 func (p publisher) Publish() error {
 	e := protobuf.ProtobufEncoder{}
+	log.Println("Proto Message: ", p.ProtoMsg)
 	d, er := e.Encode(p.Subject.Name, p.ProtoMsg)
 
+	log.Println("Bytes: ", d)
 	if er != nil {
 		log.Printf("Could not Parse protobuf message: %v", er)
 		return er
