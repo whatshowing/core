@@ -31,7 +31,15 @@ func (p publisher) Publish() error {
 
 	log.Printf("publishing to subject %v", p.Subject.Name)
 
-	return p.Client.Publish(p.Subject.Name, d)
+	err := p.Client.Publish(p.Subject.Name, d)
+
+	if err != nil {
+		log.Println(p.Subject.Name, " ", err)
+	}
+
+	log.Println("Published to subject:  ", p.Subject.Name)
+
+	return nil
 }
 
 func NewPublisher(subject *Subject, client stan.Conn, msg proto.Message) Publisher {
