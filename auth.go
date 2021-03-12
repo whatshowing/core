@@ -48,3 +48,55 @@ func (s *userStatusRegistry) Parse(status string) (*UserStatus, error) {
 
 	return nil, errors.New("cloud not parse user status")
 }
+
+var RpcHeaders = newRpcHeadersRegistry()
+
+type RpcHeader struct {
+	Name string
+}
+
+type rpcHeaderRegistry struct {
+	Auth        *RpcHeader
+	SetAuth     *RpcHeader
+	RegAuth     *RpcHeader
+	SetRegAuth  *RpcHeader
+	DeviceTk    *RpcHeader
+	SetDeviceTk *RpcHeader
+
+	statuses []*RpcHeader
+}
+
+func newRpcHeadersRegistry() *rpcHeaderRegistry {
+
+	auth := &RpcHeader{Name: "_a"}
+	setAuth := &RpcHeader{Name: "set-_a"}
+	regAuth := &RpcHeader{Name: "r_a"}
+	setRegAuth := &RpcHeader{Name: "set-r_a"}
+	deviceTk := &RpcHeader{Name: "d_tk"}
+	setDeviceTk := &RpcHeader{Name: "set-d_tk"}
+
+	return &rpcHeaderRegistry{
+		Auth:        auth,
+		SetAuth:     setAuth,
+		RegAuth:     regAuth,
+		SetRegAuth:  setRegAuth,
+		DeviceTk:    deviceTk,
+		SetDeviceTk: setDeviceTk,
+		statuses:    []*RpcHeader{auth, setRegAuth, regAuth, setRegAuth, deviceTk, setDeviceTk},
+	}
+}
+
+func (s *rpcHeaderRegistry) List() []*RpcHeader {
+	return s.statuses
+}
+
+func (s *rpcHeaderRegistry) Parse(status string) (*RpcHeader, error) {
+
+	for _, st := range s.List() {
+		if st.Name == status {
+			return st, nil
+		}
+	}
+
+	return nil, errors.New("cloud not parse user status")
+}
