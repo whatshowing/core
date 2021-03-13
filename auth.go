@@ -97,12 +97,10 @@ func (s *rpcHeaderRegistry) List() []*RpcHeader {
 }
 
 func (s *rpcHeaderRegistry) Parse(status string) (*RpcHeader, error) {
-
 	for _, st := range s.List() {
 		if st.Name == status {
 			return st, nil
 		}
 	}
-
 	return nil, errors.New("cloud not parse user status")
 }

@@ -8,6 +8,7 @@ type Subject struct {
 
 type subjectRegistry struct {
 	AuthChange            *Subject
+	UserSmsSend           *Subject
 	UserCreated           *Subject
 	UserUpdated           *Subject
 	UserArtistCreated     *Subject
@@ -25,6 +26,7 @@ type subjectRegistry struct {
 func newSubjectRegistry() *subjectRegistry {
 	return &subjectRegistry{
 		AuthChange:            &Subject{Name: "auth:change"},
+		UserSmsSend:           &Subject{Name: "user:sms:send"},
 		UserCreated:           &Subject{Name: "user:user:created"},
 		UserUpdated:           &Subject{Name: "user:user:updated"},
 		UserArtistCreated:     &Subject{Name: "user:artist:created"},

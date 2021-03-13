@@ -11,7 +11,12 @@ message EmailSendMessage {
   string html = 4;
 }
 
-message PhoneSendMessage {}
+message MessagingPhoneSmsMessage {
+  string to = 1;
+  string from = 2;
+  string body = 3;
+  int64 version = 4;
+}
 
 message PhoneVerificationMessage {}
 
@@ -21,9 +26,9 @@ message EmailSendEvent {
   string source = 3;
 }
 
-message PhoneSendEvent {
+message MessagingPhoneSmsEvent {
   uint64 version = 1;
-  PhoneSendMessage message = 2;
+  MessagingPhoneSmsMessage message = 2;
   string source = 3;
 }
 

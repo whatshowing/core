@@ -7,13 +7,15 @@ type QueueGroup struct {
 }
 
 type queueGroupRegistry struct {
-	AuthGroup *QueueGroup
-	UserGroup *QueueGroup
+	AuthGroup      *QueueGroup
+	MessagingGroup *QueueGroup
+	UserGroup      *QueueGroup
 }
 
 func newQueueGroupRegistry() *queueGroupRegistry {
 	return &queueGroupRegistry{
-		AuthGroup: &QueueGroup{Name: "auth"},
-		UserGroup: &QueueGroup{Name: "user"},
+		AuthGroup:      &QueueGroup{Name: "auth"},
+		MessagingGroup: &QueueGroup{Name: "messaging"},
+		UserGroup:      &QueueGroup{Name: "user"},
 	}
 }
