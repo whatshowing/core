@@ -14,6 +14,7 @@ type MapClaims jwt.MapClaims
 
 type JwtService interface {
 	ExtractClaims(t, secret string) (MapClaims, error)
+	ExtractToken(t string, secret string) (*jwt.Token, error, bool)
 	SignToken(mapClaims *MapClaims, secret string, expSec time.Time) (string, error)
 	IsValid(t, secret string) bool
 	RefreshToken(
@@ -45,7 +46,7 @@ func (j *jwtService) ValidateGRpc(
 	expSec time.Time,
 ) error {
 
-	tk, err, expired := j.extractToken(token, tokenSecret)
+	tk, err, expired := j.ExtractToken(token, tokenSecret)
 
 	if expired {
 		newT, er := j.RefreshToken(refreshToken, refreshSecret, token, tokenSecret, expSec)
@@ -94,7 +95,7 @@ func (*jwtService) SignToken(mapClaims *MapClaims, secret string, exp time.Time)
 }
 
 func (j *jwtService) IsValid(t, secret string) bool {
-	tk, err, _ := j.extractToken(t, secret)
+	tk, err, _ := j.ExtractToken(t, secret)
 	if err != nil {
 		return false
 	}
@@ -107,7 +108,7 @@ func (j *jwtService) IsValid(t, secret string) bool {
 }
 
 func (j *jwtService) ExtractClaims(t, secret string) (MapClaims, error) {
-	claims, err, _ := j.extractToken(t, secret)
+	claims, err, _ := j.ExtractToken(t, secret)
 	if err != nil {
 		return nil, err
 	}
@@ -116,7 +117,7 @@ func (j *jwtService) ExtractClaims(t, secret string) (MapClaims, error) {
 	return MapClaims(c), nil
 }
 
-func (*jwtService) extractToken(t string, secret string) (*jwt.Token, error, bool) {
+func (*jwtService) ExtractToken(t string, secret string) (*jwt.Token, error, bool) {
 	tk, err := jwt.Parse(t, func(token *jwt.Token) (interface{}, error) {
 		//if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 		//	return nil, fmt.Errorf("unexpected signing method, %v", token.Header["alg"])

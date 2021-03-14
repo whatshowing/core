@@ -31,7 +31,7 @@ func (s *listener) Listen(onMsg func(pb proto.Message)) (stan.Subscription, erro
 		}
 		log.Printf("Listening event on subject %v\n", s.Subject.Name)
 		onMsg(s.ProtoMsg)
-		log.Println("event message processed successfully")
+		log.Println("event subject:", s.Subject.Name, " has been processed successfully")
 	}, stan.DurableName(s.QueueGroupName.Name), stan.DeliverAllAvailable())
 }
 
