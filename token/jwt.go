@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/whatshowing/core"
+	"github.com/whatshowing/core/keys"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 	"time"
@@ -49,16 +50,25 @@ func (j *jwtService) ValidateAuthGRpc(
 
 	tk, err, expired := j.ExtractToken(token, tokenSecret)
 
+	if err != nil {
+		return ctx, errors.New("auth token not valid")
+	} else {
+		m := map[string]interface{}(tk.Claims.(jwt.MapClaims))
+
+		u := core.AuthCtx{
+			ID:    uint(m["id"].(float64)),
+			Email: m["email"].(string),
+		}
+
+		ctx = context.WithValue(ctx, keys.UserCtxKey, u)
+	}
+
 	if expired {
 		newT, er := j.RefreshToken(refreshToken, refreshSecret, token, tokenSecret, expSec)
 		if er != nil {
 			return ctx, er
 		}
 		return ctx, grpc.SetHeader(ctx, metadata.New(map[string]string{core.RpcHeaders.SetAuth.Name: newT}))
-	}
-
-	if err != nil {
-		return ctx, errors.New("auth token not valid")
 	}
 
 	if !tk.Valid {
@@ -108,12 +118,12 @@ func (j *jwtService) IsValid(t, secret string) bool {
 }
 
 func (j *jwtService) ExtractClaims(t, secret string) (MapClaims, error) {
-	claims, err, _ := j.ExtractToken(t, secret)
+	tk, err, _ := j.ExtractToken(t, secret)
 	if err != nil {
 		return nil, err
 	}
 
-	c := claims.Claims.(jwt.MapClaims)
+	c := tk.Claims.(jwt.MapClaims)
 	return MapClaims(c), nil
 }
 
