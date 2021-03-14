@@ -5,7 +5,7 @@ import (
 	"io"
 )
 
-func GenerateOpt(length int) string {
+func GenerateOTP(length int) string {
 	b := make([]byte, length)
 	n, err := io.ReadAtLeast(rand.Reader, b, length)
 	if n != length {
@@ -18,3 +18,20 @@ func GenerateOpt(length int) string {
 }
 
 var table = [...]byte{'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'}
+
+//const otpChars = "1234567890"
+//
+//func GenerateOTP(length int) (string, error) {
+//    buffer := make([]byte, length)
+//    _, err := rand.Read(buffer)
+//    if err != nil {
+//        return "", err
+//    }
+//
+//    otpCharsLength := len(otpChars)
+//    for i := 0; i < length; i++ {
+//        buffer[i] = otpChars[int(buffer[i])%otpCharsLength]
+//    }
+//
+//    return string(buffer), nil
+//}

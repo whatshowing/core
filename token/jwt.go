@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/whatshowing/core"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 	"time"
@@ -25,46 +26,45 @@ type JwtService interface {
 		expSec time.Time,
 
 	) (string, error)
-	ValidateGRpc(
+	ValidateAuthGRpc(
 		ctx context.Context,
 		refreshToken,
 		refreshSecret,
 		token,
 		tokenSecret string,
 		expSec time.Time,
-	) error
+	) (context.Context, error)
 }
 
 type jwtService struct{}
 
-func (j *jwtService) ValidateGRpc(
+func (j *jwtService) ValidateAuthGRpc(
 	ctx context.Context,
 	refreshToken,
 	refreshSecret,
 	token,
 	tokenSecret string,
 	expSec time.Time,
-) error {
+) (context.Context, error) {
 
 	tk, err, expired := j.ExtractToken(token, tokenSecret)
 
 	if expired {
 		newT, er := j.RefreshToken(refreshToken, refreshSecret, token, tokenSecret, expSec)
 		if er != nil {
-			return er
+			return ctx, er
 		}
-
-		return grpc.SetHeader(ctx, metadata.New(map[string]string{"u_auth": newT}))
+		return ctx, grpc.SetHeader(ctx, metadata.New(map[string]string{core.RpcHeaders.SetAuth.Name: newT}))
 	}
 
 	if err != nil {
-		return errors.New("auth token not valid")
+		return ctx, errors.New("auth token not valid")
 	}
 
 	if !tk.Valid {
-		return errors.New("auth token not valid")
+		return ctx, errors.New("auth token not valid")
 	}
-	return nil
+	return ctx, nil
 }
 
 func (j *jwtService) RefreshToken(

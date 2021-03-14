@@ -2,6 +2,17 @@ package core
 
 import "errors"
 
+type RegAuthCtx struct {
+	ID          uint
+	Email       string
+	AccountType string
+}
+
+type AuthCtx struct {
+	ID    uint
+	Email string
+}
+
 var UserStatuses = newUserStatusRegistry()
 
 type UserStatus struct {
