@@ -3,13 +3,13 @@ package core
 import "errors"
 
 type RegAuthCtx struct {
-	ID          uint
+	ID          string
 	Email       string
 	AccountType string
 }
 
 type AuthCtx struct {
-	ID    uint
+	ID    string
 	Email string
 }
 

@@ -5,7 +5,7 @@ package messages;
 option go_package = "proto/messages";
 
 message RegisterMessage {
-  uint64  userId = 1;
+  string userId = 1;
   string email = 2;
   string password = 3;
 }
