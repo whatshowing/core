@@ -56,7 +56,7 @@ func (j *jwtService) ValidateAuthGRpc(
 		m := map[string]interface{}(tk.Claims.(jwt.MapClaims))
 
 		u := core.AuthCtx{
-			ID:    uint(m["id"].(float64)),
+			ID:    m["id"].(string),
 			Email: m["email"].(string),
 		}
 
