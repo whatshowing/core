@@ -14,7 +14,7 @@ message UserRegisterEvent {
 
 message UserEvent {
   uint32 version = 1;
-  UserMessage user = 2;
+  UserMessage message = 2;
 }
 
 
