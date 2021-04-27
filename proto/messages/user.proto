@@ -54,8 +54,8 @@ message UserMessage {
   string id = 2;
   string email = 3;
   string username = 4;
-  string phoneCode = 5;
-  string phone = 6;
+  uint32 phoneCode = 5;
+  uint32 phone = 6;
   string status = 7;
   string deletedAt = 8;
 }
