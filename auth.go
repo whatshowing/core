@@ -1,16 +1,21 @@
 package core
 
-import "errors"
+import (
+	"errors"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type RegAuthCtx struct {
 	ID          string
 	Email       string
 	AccountType string
+	ObjectId    primitive.ObjectID
 }
 
 type AuthCtx struct {
-	ID    string
-	Email string
+	ID       string
+	Email    string
+	ObjectId primitive.ObjectID
 }
 
 var UserStatuses = newUserStatusRegistry()

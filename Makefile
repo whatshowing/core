@@ -4,6 +4,7 @@ install:
 		github.com/nats-io/stan.go \
 		github.com/bufbuild/buf/cmd/buf \
 		github.com/golang/protobuf/proto \
+		go.mongodb.org/mongo-driver \
 		github.com/joho/godotenv \
 		github.com/dgrijalva/jwt-go \
 		github.com/google/uuid \
