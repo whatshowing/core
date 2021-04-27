@@ -9,7 +9,7 @@ install:
 		github.com/google/uuid \
 		github.com/stretchr/testify
 
-generate:
+gen:
 	buf generate
 
 buf-update:

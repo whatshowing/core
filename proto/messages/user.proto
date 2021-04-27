@@ -44,7 +44,7 @@ message UserCategoryEvent {
 }
 
 
-message UserRegisterMessage {
+message UserMessage {
   uint64 version = 1;
   string id = 2;
   string email = 3;
@@ -55,6 +55,16 @@ message UserRegisterMessage {
   string deletedAt = 8;
 }
 
+message UserRegisterMessage {
+  uint64 version = 1;
+  string id = 2;
+  string email = 3;
+  string username = 4;
+  string phoneCode = 5;
+  string phone = 6;
+  string status = 7;
+  string deletedAt = 8;
+}
 
 message UserArtistMessage {
   uint64 version = 1;
