@@ -1,8 +1,12 @@
 package core
 
 import (
+	"context"
 	"errors"
+	"github.com/whatshowing/core/keys"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type RegAuthCtx struct {
@@ -119,4 +123,23 @@ func (s *rpcHeaderRegistry) Parse(status string) (*RpcHeader, error) {
 		}
 	}
 	return nil, errors.New("cloud not parse user status")
+}
+
+func GetAuthUser(ctx context.Context, authCtx *AuthCtx) error {
+	uv := ctx.Value(keys.UserCtxKey)
+	if uv == nil {
+		return status.Error(codes.PermissionDenied, "user not allowed")
+	}
+	u := uv.(AuthCtx)
+
+	objectId, err := ParseObjectId(u.ID)
+
+	if err != nil {
+		return err
+	}
+
+	authCtx.ID = u.ID
+	authCtx.Email = u.Email
+	authCtx.ObjectId = objectId
+	return nil
 }
